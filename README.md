@@ -1,0 +1,1 @@
+# resenha-rentavel-comunidade
