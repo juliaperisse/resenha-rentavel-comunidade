@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Inscrição Confirmada &mdash; Resenha Rentável</title>
+    <style>
+        /* ============================================================
+           RESENHA RENTÁVEL — PÁGINA DE OBRIGADO (Fase 2)
+           Efeito Monóculo: fundo desfocado, card = lente nítida
+           ============================================================ */
+
+        @font-face {
+            font-family: 'Brim Narrow Combined 1';
+            src: url('fonts/BrimNarrow-Combined1.woff2') format('woff2'),
+                 url('fonts/BrimNarrow-Combined1.woff') format('woff'),
+                 url('fonts/BrimNarrow-Combined1.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --noir: #1a1a1a;
+            --floresta: #163327;
+            --verde-medio: #33755a;
+            --verde-sabio: #77a190;
+            --creme: #f4efe3;
+            --fonte-titulo: 'Brim Narrow Combined 1', Georgia, 'Times New Roman', serif;
+            --fonte-texto: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--fonte-texto);
+            color: var(--creme);
+            background-color: var(--noir);
+            line-height: 1.5;
+        }
+
+        /* ---------- FUNDO DESFOCADO (plano geral) ---------- */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: url('sem%20oculos.png') center / cover no-repeat fixed;
+            filter: blur(12px) brightness(0.55);
+            transform: scale(1.06); /* esconde as bordas claras do blur */
+        }
+
+        /* ---------- TEXTURA DE PELÍCULA (film grain) ---------- */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.07;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+        }
+
+        main {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 1.25rem;
+        }
+
+        /* ---------- CARD "LENTE NÍTIDA" ---------- */
+        .card {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            width: 100%;
+            max-width: 32rem;
+            padding-top: 50px;    /* exigência: 50px exatos */
+            padding-bottom: 50px;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid rgba(119, 161, 144, 0.4);
+            box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.55);
+        }
+
+        /* Lente: mesma imagem, mesmo alinhamento fixo, sem blur = nítida */
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background: url('sem%20oculos.png') center / cover no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Véu escuro sutil para legibilidade sem matar a nitidez da lente */
+        .card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(180deg,
+                rgba(22, 51, 39, 0.55),
+                rgba(26, 26, 26, 0.6));
+        }
+
+        /* ---------- CONTEÚDO ---------- */
+        .icone-confirmacao {
+            width: 4.5rem;
+            height: 4.5rem;
+            border: 2px solid var(--verde-sabio);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            background: rgba(26, 26, 26, 0.35);
+        }
+
+        .icone-confirmacao svg {
+            width: 2.25rem;
+            height: 2.25rem;
+        }
+
+        h1 {
+            font-family: var(--fonte-titulo);
+            font-weight: normal;
+            font-size: 40px; /* faixa exigida: 38px–42px */
+            line-height: 1.15;
+            letter-spacing: 0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .instrucao {
+            font-size: 0.875rem;
+            color: rgba(244, 239, 227, 0.75);
+            margin-bottom: 1.5rem;
+        }
+
+        /* ---------- BOTÃO PULSANTE DO WHATSAPP ---------- */
+        .botao-whatsapp {
+            display: inline-block;
+            padding: 0.75rem 1.75rem;
+            font-family: var(--fonte-texto);
+            font-size: 0.9375rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-align: center;
+            text-decoration: none;
+            color: var(--creme);
+            background-color: var(--verde-medio);
+            border: 1px solid rgba(244, 239, 227, 0.7);
+            border-radius: 0.25rem;
+            animation: pulse 2.6s ease-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(51, 117, 90, 0.5);
+            }
+            60% {
+                box-shadow: 0 0 0 0.625rem rgba(51, 117, 90, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(51, 117, 90, 0);
+            }
+        }
+
+        /* ============================================================
+           FALLBACK MOBILE / WEBVIEW (iOS e navegadores internos):
+           background-attachment: fixed é ignorado nesses ambientes,
+           então o fundo geral fica nítido e o card vira Glassmorphism.
+           ============================================================ */
+        @media (hover: none), (max-width: 48rem) {
+            body::before {
+                filter: brightness(0.6);
+                transform: none;
+            }
+
+            .card::before {
+                display: none;
+            }
+
+            .card::after {
+                display: none;
+            }
+
+            .card {
+                background: rgba(22, 51, 39, 0.4);
+                -webkit-backdrop-filter: blur(12px);
+                backdrop-filter: blur(12px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <section class="card" aria-labelledby="titulo-confirmacao">
+
+            <div class="icone-confirmacao" role="img" aria-label="Inscrição confirmada">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M4 12.5l5 5L20 6.5" stroke="#77a190" stroke-width="2.5"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            <h1 id="titulo-confirmacao">Bem-vindo &agrave; comunidade</h1>
+
+            <p class="instrucao" aria-live="polite">Você será redirecionado&hellip;</p>
+
+                <a class="botao-whatsapp" href="https://chat.whatsapp.com/E90eHvlNsHPFKPo2wmxM4R?s=cl&p=i&ilr=4"
+               rel="noopener">ENTRAR NA COMUNIDADE DO WHATSAPP</a>
+
+        </section>
+    </main>
+
+    <script>
+        // Engenharia de redirecionamento e contingência (navegadores internos — YouTube Mobile)
+
+        // Plano A: Força abertura direta do app nativo
+        window.location.href = "whatsapp://chat?code=E90eHvlNsHPFKPo2wmxM4R";
+
+        // Plano B: Fallback para navegador desktop ou incompatibilidade
+        setTimeout(function () {
+            window.location.href = "https://chat.whatsapp.com/E90eHvlNsHPFKPo2wmxM4R?s=cl&p=i&ilr=4";
+        }, 1000);
+    </script>
+</body>
+</html>

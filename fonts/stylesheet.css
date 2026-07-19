@@ -1,0 +1,143 @@
+@font-face {
+    font-family: 'Brim Narrow Combined 1';
+    src: url('BrimNarrow-Combined1.eot');
+    src: local('BrimNarrow-Combined1'),
+        url('BrimNarrow-Combined1.eot?#iefix') format('embedded-opentype'),
+        url('BrimNarrow-Combined1.woff2') format('woff2'),
+        url('BrimNarrow-Combined1.woff') format('woff'),
+        url('BrimNarrow-Combined1.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brim Narrow Half Extrude';
+    src: url('BrimNarrow-HalfExtrude.eot');
+    src: local('BrimNarrow-HalfExtrude'),
+        url('BrimNarrow-HalfExtrude.eot?#iefix') format('embedded-opentype'),
+        url('BrimNarrow-HalfExtrude.woff2') format('woff2'),
+        url('BrimNarrow-HalfExtrude.woff') format('woff'),
+        url('BrimNarrow-HalfExtrude.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brim Narrow Combined 2';
+    src: url('BrimNarrow-Combined2.eot');
+    src: local('BrimNarrow-Combined2'),
+        url('BrimNarrow-Combined2.eot?#iefix') format('embedded-opentype'),
+        url('BrimNarrow-Combined2.woff2') format('woff2'),
+        url('BrimNarrow-Combined2.woff') format('woff'),
+        url('BrimNarrow-Combined2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brim Narrow Full Ex Outline';
+    src: url('BrimNarrow-FullExOutline.eot');
+    src: local('BrimNarrow-FullExOutline'),
+        url('BrimNarrow-FullExOutline.eot?#iefix') format('embedded-opentype'),
+        url('BrimNarrow-FullExOutline.woff2') format('woff2'),
+        url('BrimNarrow-FullExOutline.woff') format('woff'),
+        url('BrimNarrow-FullExOutline.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brim Narrow Face';
+    src: url('BrimNarrow-Face.eot');
+    src: local('BrimNarrow-Face'),
+        url('BrimNarrow-Face.eot?#iefix') format('embedded-opentype'),
+        url('BrimNarrow-Face.woff2') format('woff2'),
+        url('BrimNarrow-Face.woff') format('woff'),
+        url('BrimNarrow-Face.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brim Narrow Half Ex Outline';
+    src: url('BrimNarrow-HalfExOutline.eot');
+    src: local('BrimNarrow-HalfExOutline'),
+        url('BrimNarrow-HalfExOutline.eot?#iefix') format('embedded-opentype'),
+        url('BrimNarrow-HalfExOutline.woff2') format('woff2'),
+        url('BrimNarrow-HalfExOutline.woff') format('woff'),
+        url('BrimNarrow-HalfExOutline.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brim Narrow Thin Lines';
+    src: url('BrimNarrow-ThinLines.eot');
+    src: local('BrimNarrow-ThinLines'),
+        url('BrimNarrow-ThinLines.eot?#iefix') format('embedded-opentype'),
+        url('BrimNarrow-ThinLines.woff2') format('woff2'),
+        url('BrimNarrow-ThinLines.woff') format('woff'),
+        url('BrimNarrow-ThinLines.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brim Narrow Combined 3';
+    src: url('BrimNarrow-Combined3.eot');
+    src: local('BrimNarrow-Combined3'),
+        url('BrimNarrow-Combined3.eot?#iefix') format('embedded-opentype'),
+        url('BrimNarrow-Combined3.woff2') format('woff2'),
+        url('BrimNarrow-Combined3.woff') format('woff'),
+        url('BrimNarrow-Combined3.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brim Narrow Fat Lines';
+    src: url('BrimNarrow-FatLines.eot');
+    src: local('BrimNarrow-FatLines'),
+        url('BrimNarrow-FatLines.eot?#iefix') format('embedded-opentype'),
+        url('BrimNarrow-FatLines.woff2') format('woff2'),
+        url('BrimNarrow-FatLines.woff') format('woff'),
+        url('BrimNarrow-FatLines.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brim Narrow Full Extrude';
+    src: url('BrimNarrow-FullExtrude.eot');
+    src: local('BrimNarrow-FullExtrude'),
+        url('BrimNarrow-FullExtrude.eot?#iefix') format('embedded-opentype'),
+        url('BrimNarrow-FullExtrude.woff2') format('woff2'),
+        url('BrimNarrow-FullExtrude.woff') format('woff'),
+        url('BrimNarrow-FullExtrude.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brim Narrow Outline';
+    src: url('BrimNarrow-Outline.eot');
+    src: local('BrimNarrow-Outline'),
+        url('BrimNarrow-Outline.eot?#iefix') format('embedded-opentype'),
+        url('BrimNarrow-Outline.woff2') format('woff2'),
+        url('BrimNarrow-Outline.woff') format('woff'),
+        url('BrimNarrow-Outline.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

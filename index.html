@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Faça parte da comunidade Resenha Rentável.">
+    <title>Canal Resenha Rentável</title>
+    <link rel="preload" as="image" href="sem%20oculos.png" fetchpriority="high">
+    <link rel="preload" as="image" href="oculos-recorte.png" fetchpriority="high">
+    <link rel="preload" as="image" href="rasgo-moldura.png" fetchpriority="high">
+    <link rel="preload" as="image" href="nariz%20por%20cima%20do%20oculos.png" fetchpriority="high">
+    <link rel="preload" as="image" href="fundo.png" fetchpriority="high">
+    <link rel="preload" as="image" href="logo%202.png" fetchpriority="high">
+    <style>
+        /* ============================================================
+           RESENHA RENTÁVEL — FASE 2 (Brandbook Noir)
+           Paleta: #1a1a1a (noir) / #163327 (floresta) / #33755a (médio) / #77a190 (sábio)
+           ============================================================ */
+
+        @font-face {
+            font-family: 'Brim Narrow Combined 1';
+            src: url('fonts/BrimNarrow-Combined1.woff2') format('woff2'),
+                 url('fonts/BrimNarrow-Combined1.woff') format('woff'),
+                 url('fonts/BrimNarrow-Combined1.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --noir: #1a1a1a;
+            --floresta: #163327;
+            --verde-medio: #33755a;
+            --verde-sabio: #77a190;
+            --creme: #f4efe3;
+            --erro: #cf6b6b;
+            --sucesso: #5abf8f;
+            --fonte-titulo: 'Brim Narrow Combined 1', Georgia, 'Times New Roman', serif;
+            --fonte-texto: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--fonte-texto);
+            color: var(--creme);
+            background-color: var(--noir);
+            background-image: radial-gradient(ellipse 75% 55% at 50% 40%, rgba(22, 51, 39, 0.6), rgba(26, 26, 26, 0) 70%);
+            line-height: 1.5;
+        }
+
+        /* ---------- TEXTURA DE PELÍCULA (film grain via feTurbulence) ---------- */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.07;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+        }
+
+        /* ---------- RASGO DE PAPEL (topo) ---------- */
+        .rasgo-band {
+            position: relative;
+            height: clamp(11rem, 28vh, 15rem);
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .rasgo-band.assets-prontos {
+            opacity: 1;
+        }
+
+        /* Cena com a proporção do asset base: mantém os óculos
+           alinhados aos olhos em qualquer tamanho de tela */
+        .rasgo-cena {
+            position: absolute;
+            left: 50%;
+            top: 52%;
+            transform: translate(-50%, -52%);
+            aspect-ratio: 1672 / 941;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        .camada-olhos,
+        .camada-rasgo {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .camada-olhos { z-index: 1; }
+
+        .camada-oculos {
+            position: absolute;
+            z-index: 2;
+            width: auto;
+            height: 68.9%;
+            left: 18.2%;
+            top: 29.4%;
+            transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform;
+        }
+
+        .camada-nariz-cima {
+            position: absolute;
+            z-index: 3;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        /* O papel rasgado fica NA FRENTE dos óculos: ao subir, eles somem atrás dele */
+        .camada-rasgo { z-index: 4; }
+
+        /* Fusão suave entre o rasgo e o início da seção seguinte */
+        .rasgo-band::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 32%;
+            z-index: 4;
+            pointer-events: none;
+            background: linear-gradient(to bottom,
+                rgba(26, 26, 26, 0) 0%,
+                rgba(26, 26, 26, 0.12) 42%,
+                rgba(26, 26, 26, 0.38) 72%,
+                rgba(26, 26, 26, 0.72) 92%,
+                #1a1a1a 100%);
+        }
+
+        /* PC: ao passar o mouse, os óculos sobem e somem atrás do papel */
+        @media (hover: hover) {
+            .rasgo-band:hover .camada-oculos {
+                transform: translateY(-115%);
+            }
+        }
+
+        /* ---------- PRIMEIRA DOBRA ---------- */
+        .dobra-1 {
+            min-height: calc(100vh - clamp(11rem, 28vh, 15rem));
+            min-height: calc(100dvh - clamp(11rem, 28vh, 15rem));
+            display: flex;
+            flex-direction: column;
+            padding: 0.875rem 1.25rem 1rem;
+            max-width: 40rem;
+            margin: 0 auto;
+            background-image:
+                linear-gradient(180deg, rgba(26, 26, 26, 0.78) 0%, rgba(26, 26, 26, 0.9) 100%),
+                url("fundo.png");
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .cabecalho {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 0.625rem;
+        }
+
+        .cabecalho img {
+            width: 3.25rem;
+            height: 3.25rem;
+            border-radius: 50%;
+            border: 1px solid rgba(119, 161, 144, 0.5);
+            flex-shrink: 0;
+        }
+
+        .hero {
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: var(--fonte-titulo);
+            font-weight: normal;
+            font-size: clamp(2rem, 8.5vw, 2.75rem);
+            line-height: 1.1;
+            letter-spacing: 0.02em;
+            color: var(--creme);
+            margin-bottom: 0.375rem;
+        }
+
+        .hero .subheadline {
+            font-size: clamp(0.875rem, 3.8vw, 1rem);
+            color: var(--verde-sabio);
+            letter-spacing: 0.04em;
+            margin-bottom: 1rem;
+        }
+
+        /* ---------- FORMULÁRIO ---------- */
+        .secao-formulario {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .campo {
+            margin-bottom: 0.375rem;
+        }
+
+        .campo label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            color: var(--verde-sabio);
+            margin-bottom: 0.25rem;
+        }
+
+        .campo input[type="text"],
+        .campo input[type="email"],
+        .campo input[type="tel"] {
+            width: 100%;
+            padding: 0.6875rem 0.875rem;
+            font-size: 1rem; /* >=16px evita zoom automático no iOS */
+            font-family: var(--fonte-texto);
+            color: var(--creme);
+            background-color: rgba(22, 51, 39, 0.45);
+            border: 1px solid var(--verde-medio);
+            border-radius: 2px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .campo input::placeholder {
+            color: rgba(244, 239, 227, 0.35);
+        }
+
+        .campo input:focus {
+            border-color: var(--verde-sabio);
+            box-shadow: 0 0 0 3px rgba(119, 161, 144, 0.15);
+        }
+
+        .campo input.invalido {
+            border-color: var(--erro);
+            box-shadow: 0 0 0 3px rgba(207, 107, 107, 0.12);
+        }
+
+        .campo input.valido {
+            border-color: var(--sucesso);
+            box-shadow: 0 0 0 3px rgba(90, 191, 143, 0.12);
+        }
+
+        .mensagem-erro {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--erro);
+            margin-top: 0.25rem;
+            min-height: 1rem;
+        }
+
+        /* ---------- CONSENTIMENTO (LGPD) + TOOLTIP ---------- */
+        .consentimento {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin: 0.25rem 0 0.125rem;
+        }
+
+        .consentimento input[type="checkbox"] {
+            width: 1.125rem;
+            height: 1.125rem;
+            margin-top: 0.125rem;
+            flex-shrink: 0;
+            accent-color: var(--verde-medio);
+        }
+
+        .consentimento label {
+            font-size: 0.75rem;
+            color: rgba(244, 239, 227, 0.75);
+            line-height: 1.45;
+        }
+
+        .consentimentos > .mensagem-erro {
+            min-height: 0;
+        }
+
+        /* Honeypot: invisível para humanos, visível para robôs */
+        .hp-campo {
+            position: absolute;
+            left: -624.9375rem;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        .tooltip-wrap {
+            position: relative;
+            display: inline-flex;
+            vertical-align: middle;
+            margin-left: 0.25rem;
+        }
+
+        .info-btn {
+            width: 1.0625rem;
+            height: 1.0625rem;
+            border-radius: 50%;
+            border: 1px solid var(--verde-sabio);
+            background: transparent;
+            color: var(--verde-sabio);
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-size: 0.6875rem;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: calc(100% + 0.625rem);
+            right: -0.625rem;
+            width: max-content;
+            max-width: 15rem;
+            background: var(--floresta);
+            border: 1px solid var(--verde-medio);
+            color: var(--creme);
+            font-size: 0.75rem;
+            font-style: normal;
+            line-height: 1.4;
+            padding: 0.5rem 0.75rem;
+            border-radius: 2px;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.45);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            right: 0.875rem;
+            border: 0.375rem solid transparent;
+            border-top-color: var(--verde-medio);
+        }
+
+        .tooltip-wrap:hover .tooltip,
+        .info-btn:focus-visible + .tooltip,
+        .tooltip-wrap.ativo .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .tooltip.sem-seta::after {
+            display: none;
+        }
+
+        /* Mobile: o balão flutua fixo acima do ícone, sem estourar a tela */
+        @media (max-width: 47.99rem) {
+            .tooltip-wrap.ativo .tooltip {
+                position: fixed;
+                left: 1rem;
+                right: 1rem;
+                bottom: auto;
+                width: auto;
+                max-width: none;
+            }
+        }
+
+        /* ---------- CTA COM SHIMMER ---------- */
+        .area-cta {
+            padding: 0.875rem 0 0.25rem;
+        }
+
+        .botao-cta {
+            position: relative;
+            overflow: hidden;
+            display: block;
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-family: var(--fonte-texto);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: #f2f7f4;
+            background-color: var(--verde-medio);
+            border: none;
+            border-radius: 0; /* clique reto */
+            cursor: pointer;
+        }
+
+        /* Feixe de luz metálica que corre em diagonal a cada 3s */
+        .botao-cta::after {
+            content: "";
+            position: absolute;
+            top: -20%;
+            left: -60%;
+            width: 40%;
+            height: 140%;
+            background: linear-gradient(105deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.35) 50%,
+                rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-20deg);
+            animation: shimmer 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0%   { left: -60%; }
+            45%  { left: 130%; }
+            100% { left: 130%; }
+        }
+
+        /* ---------- RODAPÉ ---------- */
+        .rodape {
+            text-align: center;
+            padding: 1.25rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.06em;
+            color: rgba(119, 161, 144, 0.6);
+            border-top: 1px solid rgba(51, 117, 90, 0.25);
+        }
+
+        /* ---------- TABLET ---------- */
+        @media (min-width: 48rem) {
+            .dobra-1 {
+                justify-content: center;
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+
+            .hero h1 {
+                font-size: 3.25rem;
+            }
+        }
+
+        /* ---------- DESKTOP: duas colunas ---------- */
+        @media (min-width: 60rem) {
+            .rasgo-band {
+                height: clamp(16rem, 42vh, 25rem);
+            }
+
+            .rasgo-cena {
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .camada-oculos {
+                width: auto;
+                height: 68.9%;
+                left: 18.2%;
+                top: 29.4%;
+            }
+
+            .rasgo-band::after {
+                height: 24%;
+            }
+
+            .dobra-1 {
+                min-height: calc(100vh - clamp(16rem, 42vh, 25rem));
+                max-width: 70rem;
+                padding-left: 2.5rem;
+                padding-right: 2.5rem;
+            }
+
+            .cabecalho {
+                justify-content: flex-start;
+                padding-bottom: 1.5rem;
+            }
+
+            .cabecalho img {
+                width: 3.75rem;
+                height: 3.75rem;
+            }
+
+            main {
+                display: grid;
+                grid-template-columns: 1.15fr 1fr;
+                gap: 4rem;
+                align-items: center;
+            }
+
+            .hero {
+                text-align: left;
+            }
+
+            .hero h1 {
+                font-size: 4rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .hero .subheadline {
+                font-size: 1.125rem;
+            }
+
+            .secao-formulario {
+                flex: none;
+                justify-content: center;
+            }
+
+            .campo {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Rasgo de papel: os óculos sobem no hover (PC) ou no scroll (mobile) -->
+    <div class="rasgo-band" aria-hidden="true">
+        <div class="rasgo-cena">
+            <img class="camada-olhos" src="sem%20oculos.png" alt="" fetchpriority="high" decoding="sync">
+            <img class="camada-oculos" id="camada-oculos" src="oculos-recorte.png" alt="" fetchpriority="high" decoding="sync">
+            <img class="camada-nariz-cima" src="nariz%20por%20cima%20do%20oculos.png" alt="" fetchpriority="high" decoding="sync">
+            <img class="camada-rasgo" src="rasgo-moldura.png" alt="" fetchpriority="high" decoding="sync">
+        </div>
+    </div>
+
+    <div class="dobra-1">
+
+        <header class="cabecalho">
+            <img src="logo%202.png" alt="Logo do canal Resenha Rentável" width="120" height="120">
+        </header>
+
+        <main>
+            <section class="hero" aria-labelledby="headline">
+                <h1 id="headline">Resenha Rentável</h1>
+                <p class="subheadline">Faça parte da comunidade</p>
+            </section>
+
+            <section class="secao-formulario" aria-label="Formulário de inscrição">
+
+                <form id="formulario-captura" action="obrigado.html" method="get" novalidate>
+
+                    <!-- Honeypot anti-robô: humanos não veem nem preenchem este campo -->
+                    <div class="hp-campo" aria-hidden="true">
+                        <label for="site_web">Não preencha este campo</label>
+                        <input type="text" id="site_web" name="site_web" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <div class="campo">
+                        <label for="nome">Nome completo</label>
+                        <input type="text" id="nome" name="nome" autocomplete="name"
+                               placeholder="Digite seu nome completo" maxlength="80"
+                               required aria-required="true" aria-describedby="erro-nome">
+                        <span class="mensagem-erro" id="erro-nome" aria-live="polite"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" autocomplete="email" inputmode="email"
+                               placeholder="seumelhor@email.com" maxlength="120"
+                               required aria-required="true" aria-describedby="erro-email">
+                        <span class="mensagem-erro" id="erro-email" aria-live="polite"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="telefone">Telefone (WhatsApp)</label>
+                        <input type="tel" id="telefone" name="telefone" autocomplete="tel" inputmode="numeric"
+                               placeholder="(99) 99999-9999" maxlength="15"
+                               required aria-required="true" aria-describedby="erro-telefone">
+                        <span class="mensagem-erro" id="erro-telefone" aria-live="polite"></span>
+                    </div>
+
+                    <!-- Consentimento ativo — LGPD -->
+                    <div class="consentimentos">
+                        <div class="consentimento">
+                            <input type="checkbox" id="consentimento" name="consentimento"
+                                   required aria-required="true" aria-describedby="erro-consentimento">
+                            <label for="consentimento">Aceito receber comunicações futuras por e-mail e WhatsApp e o tratamento de meus dados para essa finalidade.<span class="tooltip-wrap" id="tooltip-wrap"><button type="button" class="info-btn" id="info-btn" aria-label="Mais informações sobre o consentimento" aria-describedby="tooltip-consentimento">i</button><span class="tooltip" id="tooltip-consentimento" role="tooltip">Você pode revogar este consentimento a qualquer momento.</span></span></label>
+                        </div>
+                        <span class="mensagem-erro" id="erro-consentimento" aria-live="polite"></span>
+                    </div>
+
+                    <div class="area-cta">
+                        <button type="submit" class="botao-cta" id="botao-enviar">ENTRAR NA COMUNIDADE DO WHATSAPP</button>
+                    </div>
+
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <footer class="rodape">
+        <p>&copy; 2026 Resenha Rentável</p>
+    </footer>
+
+    <script>
+        (function () {
+            "use strict";
+
+            /* ---------- Carregamento coordenado das camadas do rasgo ---------- */
+            var rasgoBand = document.querySelector(".rasgo-band");
+            var imagensRasgo = Array.prototype.slice.call(document.querySelectorAll(".rasgo-cena img"));
+
+            function aguardarImagem(img) {
+                return new Promise(function (resolver) {
+                    if (img.complete && img.naturalWidth > 0) {
+                        resolver();
+                        return;
+                    }
+
+                    function finalizar() {
+                        img.removeEventListener("load", finalizar);
+                        img.removeEventListener("error", finalizar);
+                        resolver();
+                    }
+
+                    img.addEventListener("load", finalizar, { once: true });
+                    img.addEventListener("error", finalizar, { once: true });
+                });
+            }
+
+            if (rasgoBand && imagensRasgo.length > 0) {
+                Promise.all(imagensRasgo.map(aguardarImagem)).then(function () {
+                    rasgoBand.classList.add("assets-prontos");
+                });
+
+                window.setTimeout(function () {
+                    rasgoBand.classList.add("assets-prontos");
+                }, 2400);
+            }
+            /* ============================================================
+               INTEGRAÇÃO GOOGLE SHEETS
+               Cole abaixo a URL do Web App gerada no Google Apps Script
+               (Implantar > Nova implantação > App da Web > acesso: "Qualquer pessoa").
+               Enquanto estiver vazia, o formulário apenas redireciona.
+               ============================================================ */
+            var URL_PLANILHA = "https://script.google.com/macros/s/AKfycbzoTtS2PmFkkV0H7vstTqmBk98oOl_wiDPp1XlulWzk8PckKxsTkGvq5wo78bc30WAD/exec";
+
+            /* Anti-spam: momento em que a página carregou (robôs enviam em <3s) */
+            var carimboCarregamento = Date.now();
+
+            var formulario = document.getElementById("formulario-captura");
+            var campoNome = document.getElementById("nome");
+            var campoEmail = document.getElementById("email");
+            var campoTelefone = document.getElementById("telefone");
+            var checkConsentimento = document.getElementById("consentimento");
+
+            /* ---------- Máscara dinâmica de WhatsApp: (99) 99999-9999 ---------- */
+            campoTelefone.addEventListener("input", function () {
+                var digitos = this.value.replace(/\D/g, "").slice(0, 11);
+                var formatado = "";
+
+                if (digitos.length > 0) {
+                    formatado = "(" + digitos.slice(0, 2);
+                }
+                if (digitos.length >= 3) {
+                    formatado += ") " + digitos.slice(2, 7);
+                }
+                if (digitos.length >= 8) {
+                    formatado += "-" + digitos.slice(7, 11);
+                }
+
+                this.value = formatado;
+            });
+
+            /* ---------- Regras de validação ---------- */
+            function validarNome() {
+                var valor = campoNome.value.trim();
+                if (valor.length < 3) { return "Digite seu nome completo."; }
+                if (valor.split(/\s+/).length < 2) { return "Digite nome e sobrenome."; }
+                return "";
+            }
+
+            function validarEmail() {
+                var valor = campoEmail.value.trim();
+                var padrao = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+                if (valor === "") { return "Digite seu e-mail."; }
+                if (!padrao.test(valor)) { return "Digite um e-mail válido (ex: nome@email.com)."; }
+                return "";
+            }
+
+            function validarTelefone() {
+                var digitos = campoTelefone.value.replace(/\D/g, "");
+                if (digitos.length === 0) { return "Digite seu WhatsApp com DDD."; }
+                if (digitos.length < 11) { return "Número incompleto. Formato: (99) 99999-9999."; }
+                return "";
+            }
+
+            /* ---------- Feedback visual em tempo real ---------- */
+            function aplicarEstado(campo, idErro, mensagem) {
+                var elementoErro = document.getElementById(idErro);
+                elementoErro.textContent = mensagem;
+
+                if (mensagem === "") {
+                    campo.classList.remove("invalido");
+                    campo.classList.add("valido");
+                    campo.setAttribute("aria-invalid", "false");
+                } else {
+                    campo.classList.remove("valido");
+                    campo.classList.add("invalido");
+                    campo.setAttribute("aria-invalid", "true");
+                }
+            }
+
+            function vincularValidacao(campo, idErro, validador) {
+                campo.addEventListener("input", function () {
+                    aplicarEstado(campo, idErro, validador());
+                });
+                campo.addEventListener("blur", function () {
+                    aplicarEstado(campo, idErro, validador());
+                });
+            }
+
+            vincularValidacao(campoNome, "erro-nome", validarNome);
+            vincularValidacao(campoEmail, "erro-email", validarEmail);
+            vincularValidacao(campoTelefone, "erro-telefone", validarTelefone);
+
+            checkConsentimento.addEventListener("change", function () {
+                if (checkConsentimento.checked) {
+                    document.getElementById("erro-consentimento").textContent = "";
+                }
+            });
+
+            /* ---------- Tooltip: hover no PC, toque no mobile ---------- */
+            var tooltipWrap = document.getElementById("tooltip-wrap");
+            var infoBtn = document.getElementById("info-btn");
+            var tooltip = document.getElementById("tooltip-consentimento");
+            var mediaMobile = window.matchMedia("(max-width: 47.99rem)");
+
+            infoBtn.addEventListener("click", function (evento) {
+                evento.preventDefault();
+                evento.stopPropagation();
+
+                var abrindo = !tooltipWrap.classList.contains("ativo");
+                tooltipWrap.classList.toggle("ativo");
+
+                if (abrindo && mediaMobile.matches) {
+                    // Posiciona o balão fixo logo acima do ícone (i)
+                    var icone = infoBtn.getBoundingClientRect();
+                    tooltip.classList.add("sem-seta");
+                    tooltip.style.top = "auto";
+                    tooltip.style.bottom = (window.innerHeight - icone.top + 10) + "px";
+                } else {
+                    tooltip.classList.remove("sem-seta");
+                    tooltip.style.bottom = "";
+                    tooltip.style.top = "";
+                }
+            });
+
+            document.addEventListener("click", function () {
+                tooltipWrap.classList.remove("ativo");
+                tooltip.classList.remove("sem-seta");
+                tooltip.style.bottom = "";
+                tooltip.style.top = "";
+            });
+
+            /* ---------- Envio: Google Sheets + redirecionamento ---------- */
+            function passaNaBlindagem() {
+                // 1. Honeypot preenchido = robô
+                var honeypot = document.getElementById("site_web");
+                if (honeypot && honeypot.value !== "") { return false; }
+
+                // 2. Envio em menos de 3s após carregar = robô
+                if (Date.now() - carimboCarregamento < 3000) { return false; }
+
+                // 3. Reenvio em menos de 30s no mesmo navegador = spam
+                try {
+                    var ultimo = parseInt(localStorage.getItem("rr_ultimo_envio"), 10);
+                    if (ultimo && Date.now() - ultimo < 30000) { return false; }
+                    localStorage.setItem("rr_ultimo_envio", String(Date.now()));
+                } catch (erro) { /* localStorage indisponível: segue normalmente */ }
+
+                return true;
+            }
+
+            function enviarParaPlanilha() {
+                if (URL_PLANILHA === "") { return; }
+                if (!passaNaBlindagem()) { return; } // robô/spam: não grava, mas redireciona igual
+                try {
+                    fetch(URL_PLANILHA, {
+                        method: "POST",
+                        mode: "no-cors",
+                        keepalive: true,
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: new URLSearchParams({
+                            nome: campoNome.value.trim().slice(0, 80),
+                            email: campoEmail.value.trim().slice(0, 120),
+                            telefone: campoTelefone.value.slice(0, 15),
+                            data: new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })
+                        }).toString()
+                    });
+                } catch (erro) { /* falha silenciosa: não bloqueia a conversão */ }
+            }
+
+            formulario.addEventListener("submit", function (evento) {
+                evento.preventDefault();
+
+                var erroNome = validarNome();
+                var erroEmail = validarEmail();
+                var erroTelefone = validarTelefone();
+                var erroConsentimento = checkConsentimento.checked
+                    ? "" : "É necessário aceitar o consentimento para continuar.";
+
+                aplicarEstado(campoNome, "erro-nome", erroNome);
+                aplicarEstado(campoEmail, "erro-email", erroEmail);
+                aplicarEstado(campoTelefone, "erro-telefone", erroTelefone);
+                document.getElementById("erro-consentimento").textContent = erroConsentimento;
+
+                if (erroNome || erroEmail || erroTelefone || erroConsentimento) {
+                    if (erroNome) { campoNome.focus(); }
+                    else if (erroEmail) { campoEmail.focus(); }
+                    else if (erroTelefone) { campoTelefone.focus(); }
+                    else { checkConsentimento.focus(); }
+                    return;
+                }
+
+                enviarParaPlanilha();
+                window.location.href = "obrigado.html";
+            });
+
+            /* ---------- Rasgo mobile: óculos sobem com o scroll (requestAnimationFrame) ---------- */
+            var camadaOculos = document.getElementById("camada-oculos");
+            var temHover = window.matchMedia("(hover: hover)").matches;
+
+            if (camadaOculos && !temHover) {
+                var progressoAtual = 0;
+                var progressoAlvo = 0;
+                var animando = false;
+
+                function calcularAlvo() {
+                    var limiteRapido = Math.max(window.innerHeight * 0.2, 90);
+                    progressoAlvo = Math.min(window.scrollY / limiteRapido, 1);
+                }
+
+                function animarRasgo() {
+                    var distancia = progressoAlvo - progressoAtual;
+                    progressoAtual += distancia * 0.22;
+
+                    if (Math.abs(distancia) < 0.001) {
+                        progressoAtual = progressoAlvo;
+                    }
+
+                    camadaOculos.style.transform = "translateY(" + (-130 * progressoAtual) + "%)";
+
+                    if (progressoAtual !== progressoAlvo) {
+                        window.requestAnimationFrame(animarRasgo);
+                    } else {
+                        animando = false;
+                    }
+                }
+
+                function sincronizarScroll() {
+                    calcularAlvo();
+                    if (!animando) {
+                        animando = true;
+                        window.requestAnimationFrame(animarRasgo);
+                    }
+                }
+
+                calcularAlvo();
+                camadaOculos.style.transform = "translateY(" + (-130 * progressoAtual) + "%)";
+
+                window.addEventListener("scroll", sincronizarScroll, { passive: true });
+                window.addEventListener("resize", sincronizarScroll, { passive: true });
+            }
+        })();
+    </script>
+</body>
+</html>

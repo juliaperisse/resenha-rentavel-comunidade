@@ -1,1 +1,1 @@
-# resenha-rentavel-comunidade
+# lp-resenha
