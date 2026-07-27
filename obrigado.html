@@ -5,6 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>Inscrição Confirmada &mdash; Resenha Rentável</title>
+
+    <!-- ============================================================
+         REDIRECIONAMENTO IMEDIATO (roda no <head>, antes de carregar
+         o fundo pesado — leva pro grupo o mais rápido possível)
+         ============================================================ -->
+    <script>
+        (function () {
+            var code = "E90eHvlNsHPFKPo2wmxM4R";
+            var grupo = "https://chat.whatsapp.com/" + code + "?s=cl&p=i&ilr=4";
+
+            // Plano A: abre o app direto (funciona inclusive em navegadores
+            // internos, ex.: WhatsApp/YouTube webview no celular).
+            window.location.href = "whatsapp://chat?code=" + code;
+
+            // Plano B: fallback rápido para desktop ou quando o app não abre.
+            var fallback = setTimeout(function () {
+                window.location.replace(grupo);
+            }, 600);
+
+            // Se o app abriu (a aba ficou oculta), cancela o fallback para
+            // não jogar o usuário na versão web depois de já ter entrado.
+            document.addEventListener("visibilitychange", function () {
+                if (document.hidden) { clearTimeout(fallback); }
+            });
+        })();
+    </script>
+
     <style>
         /* ============================================================
            RESENHA RENTÁVEL — PÁGINA DE OBRIGADO (Fase 2)
@@ -230,16 +257,5 @@
 
         </section>
     </main>
-
-    <script>
-        // Redirecionamento imediato pelo link UNIVERSAL do convite.
-        // Esse link abre o app nativo no celular (inclusive em webviews do YouTube/Instagram)
-        // e o WhatsApp Web/Desktop no PC — sem o atraso e as travas do esquema "whatsapp://".
-        (function () {
-            var convite = "https://chat.whatsapp.com/E90eHvlNsHPFKPo2wmxM4R?s=cl&p=i&ilr=4";
-            // replace() não deixa a página de obrigado no histórico (o "voltar" não volta pra cá)
-            window.location.replace(convite);
-        })();
-    </script>
 </body>
 </html>
