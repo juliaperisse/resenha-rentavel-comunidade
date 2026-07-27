@@ -232,15 +232,14 @@
     </main>
 
     <script>
-        // Engenharia de redirecionamento e contingência (navegadores internos — YouTube Mobile)
-
-        // Plano A: Força abertura direta do app nativo
-        window.location.href = "whatsapp://chat?code=E90eHvlNsHPFKPo2wmxM4R";
-
-        // Plano B: Fallback para navegador desktop ou incompatibilidade
-        setTimeout(function () {
-            window.location.href = "https://chat.whatsapp.com/E90eHvlNsHPFKPo2wmxM4R?s=cl&p=i&ilr=4";
-        }, 1000);
+        // Redirecionamento imediato pelo link UNIVERSAL do convite.
+        // Esse link abre o app nativo no celular (inclusive em webviews do YouTube/Instagram)
+        // e o WhatsApp Web/Desktop no PC — sem o atraso e as travas do esquema "whatsapp://".
+        (function () {
+            var convite = "https://chat.whatsapp.com/E90eHvlNsHPFKPo2wmxM4R?s=cl&p=i&ilr=4";
+            // replace() não deixa a página de obrigado no histórico (o "voltar" não volta pra cá)
+            window.location.replace(convite);
+        })();
     </script>
 </body>
 </html>

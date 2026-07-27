@@ -525,10 +525,10 @@
     <!-- Rasgo de papel: os óculos sobem no hover (PC) ou no scroll (mobile) -->
     <div class="rasgo-band" aria-hidden="true">
         <div class="rasgo-cena">
-            <img class="camada-olhos" src="sem%20oculos.png" alt="" fetchpriority="high" decoding="sync">
-            <img class="camada-oculos" id="camada-oculos" src="oculos-recorte.png" alt="" fetchpriority="high" decoding="sync">
-            <img class="camada-nariz-cima" src="nariz%20por%20cima%20do%20oculos.png" alt="" fetchpriority="high" decoding="sync">
-            <img class="camada-rasgo" src="rasgo-moldura.png" alt="" fetchpriority="high" decoding="sync">
+            <img class="camada-olhos" src="sem%20oculos.png" alt="" fetchpriority="high" decoding="async">
+            <img class="camada-oculos" id="camada-oculos" src="oculos-recorte.png" alt="" fetchpriority="high" decoding="async">
+            <img class="camada-nariz-cima" src="nariz%20por%20cima%20do%20oculos.png" alt="" fetchpriority="high" decoding="async">
+            <img class="camada-rasgo" src="rasgo-moldura.png" alt="" fetchpriority="high" decoding="async">
         </div>
     </div>
 
@@ -634,7 +634,7 @@
 
                 window.setTimeout(function () {
                     rasgoBand.classList.add("assets-prontos");
-                }, 2400);
+                }, 700);
             }
             /* ============================================================
                INTEGRAÇÃO GOOGLE SHEETS
